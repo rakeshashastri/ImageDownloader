@@ -29,9 +29,7 @@ struct ImageDownloader {
         var imageInfo = ImageDownloadResponse(imageID: request.imageID)
         
         // Get image from cache
-        var time = Date().timeIntervalSince1970
         if let cachedImage = imageCache.object(forKey: request.imageID as NSString) {
-            debugPrint("Time taken for cache = \(Date().timeIntervalSince1970 - time)")
             imageInfo.image = cachedImage
             imageInfo.source = .cache
             if let size = request.size {
@@ -46,10 +44,8 @@ struct ImageDownloader {
             }
         }
         
-        time = Date().timeIntervalSince1970
         // Get the image from the documents directory
         if let image = getImageFromDocumentsDirectory(withName: request.imageID), imageInfo.image == nil {
-            debugPrint("Time taken for document directory = \(Date().timeIntervalSince1970 - time)")
             imageInfo.image = image
             imageInfo.source = .documentsDirectory
             completion(.success(imageInfo))
